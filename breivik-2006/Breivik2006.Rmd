@@ -1,0 +1,86 @@
+---
+title: "Prevalence of chronic pain in 15 European countries and Israel"
+author: "Peter Kamerman"
+date: "05 September 2015"
+output: 
+    md_document:
+        variant: markdown_github
+---
+Prevalence of chronic pain in 15 European countries and Israel
+==============================================================
+
+## Key
+| Country     	| Code 	|
+|-------------	|------	|
+| Spain       	| A    	|
+| Ireland     	| B    	|
+| UK          	| C    	|
+| France      	| D    	|
+| Switzerland 	| E    	|
+| Denmark     	| F    	|
+| Israel      	| G    	|
+| Germany     	| H    	|
+| Netherlands 	| I    	|
+| Sweden      	| J    	|
+| Finland     	| K    	|
+| Austria     	| L    	|
+| Belgium     	| M    	|
+| Italy       	| N    	|
+| Poland      	| O    	|
+| Norway     	| P    	|
+
+Data analysis
+-------------
+## Load packages
+```{r packages, echo = T, result = 'asis', warning = F, message = F, tidy = T, tidy.opts = list(width.cutoff = 75)}
+library(dplyr)
+library(boot)
+```
+
+## Data entry
+```{r data, echo = TRUE, warning = FALSE, message  = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 75)}
+# Data from Breivik et al., 2004 (Figure 1)
+# Make dataframe including the 16 countries (LETTERS), 
+# total population sampled in each country,
+# Reported chronic pain prevalence
+data <- data.frame(Site = LETTERS[1:16], 
+                 TotalSample = c(3801,2772,3800,3846,2083,2169,2244,3832,3197,2563,2004,2004,2451,3849,3812,2018), 
+                 Prevalence = c(0.12,0.13,0.13,0.15,0.16,0.16,0.17,0.17,0.18,0.18,0.19,0.21,0.23,0.26,0.27,0.3))
+# Convert to dplyr object
+data <- tbl_df(data)
+# Add columns with site weighting according to sample size,
+# and number of people with chronicn pain for each site
+data.1 <- data %>%
+    mutate(SampleWeight = TotalSample / sum(TotalSample),
+           TotalChronicPain = round(Prevalence * TotalSample)) %>%
+    select(Site, TotalSample, TotalChronicPain, Prevalence, SampleWeight)
+# Check data
+data.1
+```
+
+## Bootstrap mean
+```{r boot, echo = TRUE, warning = FALSE, message  = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 75)}
+# Define 'boot' function to calculate the mean prevalence of chronic pain
+func <- function(d, w) {
+    sum(d$TotalChronicPain * w)/sum(d$TotalSample * w)
+}
+# Call 'boot' with defined function, using weights based on sample size,
+# and 10 000 replicates
+bootMeanPrev <- boot(data.1, func, R = 10000, stype = "w", weights = data.1$SampleWeight)
+# View boot output
+bootMeanPrev
+plot(bootMeanPrev)
+```
+
+## Bootstrap 95% confidence interval
+```{r boot.ci, echo = TRUE, warning = FALSE, message  = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 75)}
+# Calculate bootstrap 95% CI
+boot.ciMeanPrev <- boot.ci(bootMeanPrev, type='basic')
+# View boot.ci output
+boot.ciMeanPrev
+```
+
+## Session information
+```{r session, echo = TRUE, warning = FALSE, message  = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 75)}
+sessionInfo()
+```

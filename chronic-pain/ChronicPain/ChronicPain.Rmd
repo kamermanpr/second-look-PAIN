@@ -1,0 +1,134 @@
+---
+output: 
+    md_document:
+        variant: markdown_github
+---
+
+# Prevalence of chronic pain
+
+### Peter Kamerman
+
+**Date: `r format(Sys.time(), "%B %d, %Y")`**
+
+***
+
+## Session setup
+```{r sessionSetup, message = FALSE}
+# Load packages
+library(ggplot2)
+library(scales)
+library(grid)
+library(cowplot)
+library(svglite)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(broom)
+library(boot)
+
+# Load palette
+dark5 <- c("#0086EF", "#EF6900", "#19A476", "#F3379A", "#666666")
+light5 <- c("#3DAAFF", "#FF923D", "#2DBFA3", "#F667B2", "#999999")
+
+# set seed
+set.seed(123)
+
+# knitr chunk options
+opts_chunk$set(echo = FALSE,
+               warning = FALSE,
+               message = FALSE,
+               cache = FALSE,
+               cache.extra = rand_seed,
+               fig.path = './figures/',
+               fig.width = 11,
+               fig.height = 8,
+               dev = c('png', 'svglite'),
+               tidy = TRUE, 
+               tidy.opts = list(width.cutoff = 65))
+```
+
+# Chronic pain in Europe 
+*Breivik et al., 2006*
+
+### Load data
+```{r importData_breivik, echo = TRUE}
+breivik <- read_csv('./data/breivik2006.csv', col_names = T)
+```
+
+### Quick look
+```{r quickLook_breivik}
+# dim(breivik)
+# names(breivik)
+# head(breivik)
+# tail(breivik)
+glimpse(breivik)
+```
+
+### Process data
+```{r processData_breivik}
+# Convert 'Site' to factor;
+# Add column with number of people with chronic 
+# pain at each site;
+# Add column with site weighting according country 
+# sample size.
+breivik_1 <- breivik %>%
+    mutate(Country = factor(Country),
+           Total_n_pain = round(Pain_prev * Total_n),
+           Weighting = Total_n / sum(Total_n)) %>%
+    select(Country, 
+           Total_n,
+           Pain_prev, 
+           Total_n_pain, 
+           Weighting)
+# Check data
+# breivik_1
+```
+
+### Bootstrap mean and 95% confidence interval
+#### Across all 16 countries
+```{r boot_breivikAll}
+# Define function to calculate the mean prevalence 
+# of chronic pain using the data in 'breivik_1' (d), 
+# and using 'Weighting' (w) to control the probability 
+# of sampling from each country.
+boot_mean <- function(d, w) {
+    sum(d$Total_n_pain * w) / sum(d$Total_n * w)
+}
+# Call 'boot' fucntion with 'boot_mean' function,
+# using weighted sampling, and 999 replicates.
+breivik_mean <- boot(data = breivik_1, 
+                     statistic = boot_mean, 
+                     R = 999, 
+                     stype = "w", 
+                     weights = breivik_1$Weighting)
+# Calculate bootstrap 95% CI
+breivik_95CI <- boot.ci(breivik_mean, type='basic')
+# Inspect outputs
+breivik_mean
+plot(breivik_mean)
+breivik_95CI
+```
+#### Individual countries
+```{r boot_breivikCountries}
+# Make sample dataset for each country
+data_list <- NULL
+dataset_func <- function(data) {
+    for(i in 1:nrow(data)) {
+        data_list[[i]] <- c(rep('pain', data[i, 4]),
+                            rep('no_pain', data[i, 2] - data[i, 4]))
+    }
+    data_list <- lapply(data_list, 
+                        function(x) sample(x,
+                                           size = length(x),
+                                           replace = F))
+    names(data_list) <- as.character(data$Country)
+    data_list
+}
+sample_breivik <- dataset_func(data = breivik_1)
+```
+
+## Session information
+```{r sessionInformation}
+sessionInfo()
+```

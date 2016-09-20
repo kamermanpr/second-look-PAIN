@@ -1,0 +1,19 @@
+# R
+.Rhistory
+.Rapp.history
+
+# RStudio files
+.Rproj.user
+
+# Office
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.pptx
+*.ppt
+
+# Other
+*.log
+*.bak
+build/

@@ -1,0 +1,25 @@
+## HIV-associated sensory neuropathy: down, but not out
+
+### Description of the analysis
+These analyses use data extracted from a paper published by Ellis and colleagues (2010) on the epidemiology of HIV-SN in a large, multi-centre cohort in the USA, the CHARTER cohort. The data for the prevalence of neuropathy were extracted from _[Table 1](./figures/ellis-2010-table1.jpg)_ in the paper, and the analysis describes the prevalence of HIV-SN in patients exposed to neurotoxic antiretroviral drugs at some point in their treatment history, and in patients on treatment, but who have never been exposed to such drugs. The data for the prevalence of pain in patients with a neuropathy were extracted from _[Table 2](./figures/ellis-2010-table2.jpg)_ in the paper, and the analysis describes the prevalence of painful HIV-SN in patients (with neuropathy) exposed to neurotoxic antiretroviral drugs at some point in their treatment history, and in patients on treatment, but who have never been exposed to such drugs. 
+
+The analysis _**.Rmd**_ script is located [here](./ellis-2010.Rmd), and a standalone _**.html**_ is located [here](./ellis-2010.html). The data are also reported on the [painblogR](http://painblogr.org/2016-02-22-hiv-neuropathy-down-but-not-out.html) blog.
+
+### Citation
+Peter Kamerman (2016). HIV-associated sensory neuropathy: down, but not out. Figshare DOI: [10.6084/m9.figshare.2656255 ](http://dx.doi.org/10.6084/m9.figshare.2656255)
+
+----
+
+### Data source
+Ellis RJ, Rosario D, Clifford DB, McArthur JC, Simpson D, Alexander T, Gelman BB, Vaida F, Collier A, Marra CM, Ances B, Atkinson JH, Dworkin RH, Morgello S, Grant I, CHARTER Study Group. Continued high prevalence and adverse clinical impact of human immunodeficiency virus-associated sensory neuropathy in the era of combination antiretroviral therapy: the CHARTER Study. *Arch. Neurol.* **67**: 552–558, 2010. [doi: 10.1001/archneurol.2010.76](http://dx.doi.org/10.1001/archneurol.2010.76)
+
+### Abstract for Ellis *et al.*, 2010
+***OBJECTIVE:*** To provide updated estimates of the prevalence and clinical impact of human immunodeficiency virus-associated sensory neuropathy (HIV-SN) and neuropathic pain due to HIV-SN in the combination antiretroviral therapy (CART) era. ***DESIGN:*** Prospective, cross-sectional analysis. Clinical correlates for HIV-SN and neuropathic pain, including age, exposure to CART, CD4 levels, plasma viral load, hepatitis C virus infection, and alcohol use disorders, were evaluated in univariate and multivariate models. ***SETTING:*** Six US academic medical centers. ***PATIENTS:*** One thousand five hundred thirty-nine HIV-infected individuals enrolled in the CNS (Central Nervous System) HIV Anti-Retroviral Therapy Effects Research study. ***MAIN OUTCOME MEASURES:*** The presence of HIV-SN, defined by 1 or more clinical signs (diminished vibration or sharp sensation in the legs and feet; reduced ankle reflexes) in a distal, symmetrical pattern. Neuropathic pain was defined as aching, stabbing, or burning in a similar distribution. The effect on quality of life was assessed with the Medical Outcomes Study HIV Health Survey. ***RESULTS:*** We found HIV-SN in 881 participants. Of these, 38.0% reported neuropathic pain. Neuropathic pain was significantly associated with disability in daily activities, unemployment, and reduced quality of life. Risk factors for HIV-SN after adjustment were advancing age (odds ratio, 2.1 [95% confidence interval, 1.8-2.5] per 10 years), lower CD4 nadir (1.2 [1.1-1.2] per 100-cell decrease), current CART use (1.6 [1.3-2.8]), and past "D-drug" use (specific dideoxynucleoside analogue antiretrovirals) (2.0 [1.3-2.6]). Risk factors for neuropathic pain were past D-drug use and higher CD4 nadir. ***CONCLUSIONS:*** Neuropathic pain and HIV-SN remain prevalent, causing substantial disability and reduced quality of life even with successful CART. The clinical correlates of HIV-SN have changed with the evolution of treatment. These findings argue for redoubled efforts to determine HIV-SN pathogenesis and the development of symptomatic and neuroregenerative therapies.
+
+### Case definition used by Ellis *et al.*, 2010
+One or more clinical signs (diminished vibration or sharp sensation in the legs and feet; reduced ankle reflexes) in a distal, symmetrical pattern.
+
+----
+### About 'second-look-PAIN'
+The **"second-look-PAIN"** repository contains a selection of secondary analyses and redrawing of figures from research papers in the field of pain. The respository is under active development, and you are encouraged to fork the respository, make additions/changes, and issue pull requests. <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">second-look-PAIN</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/kamermanpr/second-look-PAIN.git" property="cc:attributionName" rel="cc:attributionURL">Peter Kamerman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
