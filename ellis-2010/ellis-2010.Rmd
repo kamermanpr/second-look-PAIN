@@ -6,9 +6,6 @@ output:
     html_document:
         theme: yeti
         highlight: haddock
-        mathjax: default
-        self_contained: false
-        lib_dir: 'site_libs'
         code_folding: hide
 ---
 
